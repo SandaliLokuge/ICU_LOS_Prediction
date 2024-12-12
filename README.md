@@ -4,7 +4,8 @@ ICU length of stay prediction using clinical parameters (demographics, labe even
 
 ## Model architecture
 
-![alt text](https://github.com/SandaliLokuge/ICU_LOS_Prediction/blob/main/model_architecture.png)
+![alt text](https://github.com/SandaliLokuge/ICU_LOS_Prediction/blob/main/model_architecture.png, width="20")
+
 
 ## Input
 The model utilizes clinical parameters, including demographic features, lab events, and chart events recorded within 24 hours of ICU admission, derived from the MIMIC-IV dataset.
