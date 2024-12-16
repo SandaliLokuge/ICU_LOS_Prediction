@@ -23,7 +23,7 @@ class ICUModel_CrossAttention(nn.Module):
             nn.Linear(hidden_dims[1], hidden_dims[2]),
             nn.ReLU(),
             nn.Dropout(dropout_rate),
-            nn.Linear(hidden_dims[2], hidden_dims[3]),  # New layer
+            nn.Linear(hidden_dims[2], hidden_dims[3]),  
             nn.ReLU(),
             nn.Dropout(dropout_rate)
         )
@@ -39,7 +39,7 @@ class ICUModel_CrossAttention(nn.Module):
             nn.Linear(hidden_dims[1], hidden_dims[2]),
             nn.ReLU(),
             nn.Dropout(dropout_rate),
-            nn.Linear(hidden_dims[2], hidden_dims[3]),  # New layer
+            nn.Linear(hidden_dims[2], hidden_dims[3]),  
             nn.ReLU(),
             nn.Dropout(dropout_rate)
         )
