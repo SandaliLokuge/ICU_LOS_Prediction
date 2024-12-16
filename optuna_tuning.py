@@ -16,6 +16,7 @@ from selfAttention_model import ICUModel_SelfAttention
 from attention_model import ICUModel_Attention
 from noAttention_model import ICUModel_NoAttention
 from crossAttention_model import ICUModel_CrossAttention
+from onlyClinicalfeatures_model import ICUModel_NoImages
 
 class Optuna_tuning:
   def __init__(self, clinicalData_df, imgData_df, icu_stay, train_loader, val_loader, device, epochs):
@@ -60,8 +61,10 @@ class Optuna_tuning:
       model = ICUModel_SelfAttention(clinical_input_dim, img_input_dim, hidden_dims, dropout_rate)
     elif model_type == 'only_cross_attention':
       model = ICUModel_CrossAttention(clinical_input_dim, img_input_dim, hidden_dims, dropout_rate)
+    elif model_type == 'no_attention_no_images':
+      model = ICUModel_NoImages(clinical_input_dim, hidden_dims, dropout_rate)
     else:
-      raise ValueError("Invalid model type. Choose from 'attention', 'no_attention', 'only_self_attention', or 'only_cross_attention'.")
+      raise ValueError("Invalid model type. Choose from 'attention', 'no_attention', 'only_self_attention', 'only_cross_attention' or 'no_attention_no_images'.")
 
     # Apply weight initialization
     model.apply(init_weights)
@@ -77,7 +80,13 @@ class Optuna_tuning:
     with torch.no_grad():
         for clinical_data, img_data, icu_stay in val_loader:
             clinical_data, img_data, icu_stay = clinical_data.to(device), img_data.to(device), icu_stay.to(device)
-            predictions = model(clinical_data, img_data)
+            
+            # Conditional forward pass based on model type
+            if model_type == 'no_attention_no_images':
+              predictions = model(clinical_data)  # Pass only clinical data for ICUModel_NoImages
+            else:
+              predictions = model(clinical_data, img_data)  # Pass both for other models
+
             loss = criterion(predictions, icu_stay)
             val_loss += loss.item()
     return val_loss / len(val_loader)

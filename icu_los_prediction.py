@@ -101,4 +101,10 @@ print(study_crossattention.best_params)
 train_final_model(study_crossattention,clinicalData_df,imgData_df,train_loader,val_loader,test_loader,"only_cross_attention",EPOCHS,device):
 
 
+# Model with only clinical features no xray images
 
+study_noimages = optuna.create_study(direction='minimize')
+study_noimages.optimize(lambda trial: optuna_ob.objective(trial, model_type='no_attention_no_images'), n_trials=N_TRIALS)
+print(study_noimages.best_params)
+
+train_final_model(study_noimages,clinicalData_df,None,train_loader,val_loader,test_loader,"only_cross_attention",EPOCHS,device):
